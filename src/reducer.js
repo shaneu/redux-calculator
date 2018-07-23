@@ -119,14 +119,16 @@ export default (state = initialState, action) => {
       return { ...state, currentInput: percent, displayValue: percent };
     }
     case TOGGLE_SIGN: {
-      const toggledSign = String(toggleSign(Number(state.currentInput)));
+      const toggledSign = String(
+        toggleSign(Number(state.currentInput || state.total))
+      );
       return { ...state, currentInput: toggledSign, displayValue: toggledSign };
     }
     case EQUALS: {
       if (!state.input.length && !state.history.length) {
         return { ...state };
       }
-      const lastOperator = state.history.slice(-2, -1);
+      const [lastOperator] = state.history.slice(-2, -1);
       const currentInput =
         state.currentInput && Number.isNaN(Number(state.currentInput))
           ? lastOperator
